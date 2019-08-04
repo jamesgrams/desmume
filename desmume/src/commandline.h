@@ -65,6 +65,8 @@ public:
 	int disable_sound;
 	int disable_limiter;
 	int windowed_fullscreen;
+	std::string save_dir;
+	std::string screenshot_dir;
 
 	bool parse(int argc,char **argv);
 
@@ -93,6 +95,8 @@ private:
 	char* _gbaslot_rom;
 	char* _bios_arm9, *_bios_arm7;
 	char* _fw_path;
+	char* _save_dir;
+	char* _screenshot_dir;
 	int _fw_boot;
 	int _load_to_memory;
 	int _bios_swi;

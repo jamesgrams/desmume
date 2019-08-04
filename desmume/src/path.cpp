@@ -252,11 +252,15 @@ void PathInfo::ReadPathSettings()
 		LoadModulePath();
 
 	ReadKey(pathToRoms, ROMKEY);
-	ReadKey(pathToBattery, BATTERYKEY);
+	if( !customSaveDir ) {
+		ReadKey(pathToBattery, BATTERYKEY);
+	}
 	ReadKey(pathToSramImportExport, SRAMIMPORTKEY);
 	ReadKey(pathToStates, STATEKEY);
 	ReadKey(pathToStateSlots, STATESLOTKEY);
-	ReadKey(pathToScreenshots, SCREENSHOTKEY);
+	if( !customScreenshotDir ) {
+		ReadKey(pathToScreenshots, SCREENSHOTKEY);
+	}
 	ReadKey(pathToAviFiles, AVIKEY);
 	ReadKey(pathToCheats, CHEATKEY);
 	ReadKey(pathToSounds, SOUNDKEY);

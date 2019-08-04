@@ -46,6 +46,7 @@
 #include "mic.h"
 #include "movie.h"
 #include "dTool.h"
+#include "path.h"
 #include "../shared/desmume_config.h"
 #include "cheatsGTK.h"
 #include "frontend/modules/osd/agg/agg_osd.h"
@@ -2447,6 +2448,7 @@ static void Printscreen()
     u8 rgb[256 * 384 * 4];
     static int seq = 0;
     gint H, W;
+    std::string screenshotDirStr;
 
     //rgb = (u8 *) malloc(SCREENS_PIXEL_SIZE*SCREEN_BYTES_PER_PIXEL);
     //if (!rgb)
@@ -2471,7 +2473,13 @@ static void Printscreen()
                           NULL,
                           NULL);
 
-    dir = g_get_user_special_dir(G_USER_DIRECTORY_PICTURES);
+    if( path.customScreenshotDir ) {
+        screenshotDirStr = path.getpath(path.SCREENSHOTS);
+        dir = screenshotDirStr.c_str();
+    }
+    else {
+        dir = g_get_user_special_dir(G_USER_DIRECTORY_PICTURES);
+    }
     if (dir == NULL) {
         dir = g_get_user_special_dir(G_USER_DIRECTORY_DESKTOP);
     }

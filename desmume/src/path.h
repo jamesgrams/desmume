@@ -66,6 +66,8 @@ public:
 	std::string path;
 	std::string RomName;
 	std::string RomDirectory;
+	bool customSaveDir;
+	bool customScreenshotDir;
 
 	#define MAX_FORMAT		20
 	#define SECTION			"PathSettings"

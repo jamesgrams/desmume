@@ -29,6 +29,7 @@
 #include "utils/datetime.h"
 #include "utils/xstring.h"
 #include <compat/getopt.h>
+#include "path.h"
 //#include "frontend/modules/mGetOpt.h" //to test with this, make sure global `optind` is initialized to 1
 
 #define printerror(...) fprintf(stderr, __VA_ARGS__)
@@ -82,6 +83,8 @@ CommandLine::CommandLine()
 , windowed_fullscreen(0)
 , _rtc_day(-1)
 , _rtc_hour(-1)
+, _save_dir(0)
+, _screenshot_dir(0)
 {
 }
 
@@ -185,6 +188,9 @@ ENDL
 "Utility commands which occur in place of emulation:" ENDL
 " --advanscene-import PATH   Import advanscene, dump .ddb, and exit" ENDL
 ENDL
+"Arguments for directories" ENDL
+" --save-dir DIR          The directory to save the game into" ENDL
+" --screenshot-dir DIR    The directory to save the screenshots into" ENDL
 "These arguments may be reorganized/renamed in the future." ENDL ENDL
 ;
 
@@ -227,6 +233,9 @@ ENDL
 #define OPT_RTC_HOUR 801
 
 #define OPT_ADVANSCENE 900
+
+#define OPT_SAVEDIR 1000
+#define OPT_SCREENSHOTDIR 1001
 
 bool CommandLine::parse(int argc,char **argv)
 {
@@ -313,7 +322,11 @@ bool CommandLine::parse(int argc,char **argv)
 
 			//utilities
 			{ "advanscene-import", required_argument, NULL, OPT_ADVANSCENE},
-				
+
+			//directories
+			{ "save-dir", required_argument, NULL, OPT_SAVEDIR },
+			{ "screenshot-dir", required_argument, NULL, OPT_SCREENSHOTDIR },
+
 			{0,0,0,0}
 		};
 
@@ -376,6 +389,10 @@ bool CommandLine::parse(int argc,char **argv)
 		//utilities
 		case OPT_ADVANSCENE: CommonSettings.run_advanscene_import = optarg; break;
 		case OPT_LANGUAGE: language = atoi(optarg); break;
+
+		//directories
+		case OPT_SAVEDIR: save_dir = optarg; break;
+		case OPT_SCREENSHOTDIR: screenshot_dir = optarg; break;
 		}
 	} //arg parsing loop
 
@@ -572,6 +589,14 @@ void CommandLine::process_movieCommands()
 
 void CommandLine::process_addonCommands()
 {
+	if( save_dir != "" ) {
+		path.setpath( path.BATTERY, save_dir );
+		path.customSaveDir = true;
+	}
+	if( screenshot_dir != "" ) {
+		path.setpath( path.SCREENSHOTS, screenshot_dir );
+		path.customScreenshotDir = true;
+	}
 	if (cflash_image != "")
 	{
 		CFlash_Mode = ADDON_CFLASH_MODE_File;
