@@ -394,7 +394,7 @@ static const char *ui_description =
 "  </toolbar>"
 "</ui>";
   
-static const GtkActionEntry action_entries[] = {
+GtkActionEntry action_entries[] = {
     { "FileMenu", NULL, "_File" },
       { "open",          "gtk-open",    "_Open",         "<Ctrl>o",  NULL,   OpenNdsDialog },
       { "RecentMenu", NULL, "Open _recent" },
@@ -3267,6 +3267,17 @@ common_gtk_main( class configured_features *my_config)
     ui_manager = gtk_ui_manager_new ();
     accel_group = gtk_accel_group_new();
     action_group = gtk_action_group_new("dui");
+
+    if( !config.screenshot_key.get().empty() ) {
+        int ae_index=0;
+        while(true) {
+            if( action_entries[ae_index].name == "printscreen" ) {
+                action_entries[ae_index].accelerator = config.screenshot_key.get().c_str();
+                break;
+            }
+            ae_index++;
+        }
+    }
 
     gtk_action_group_add_actions(action_group, action_entries, G_N_ELEMENTS(action_entries), NULL);
     gtk_action_group_add_toggle_actions(action_group, toggle_entries, G_N_ELEMENTS(toggle_entries), NULL);

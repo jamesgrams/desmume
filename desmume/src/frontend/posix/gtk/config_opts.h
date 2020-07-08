@@ -64,6 +64,7 @@ OPT(highColorInterpolation, bool, true, Config, HighResolutionColorInterpolation
 OPT(multisampling, bool, false, Config, OpenGLMultisampling)
 OPT(command_line_overriding_firmware_language, bool, false, Config, CommandLineOverridingFirmwareLanguage)
 OPT(firmware_language, int, 1, Config, FirmwareLanguage)
+OPT(screenshot_key,std::string,"<Ctrl>s",Config,ScreenshotKey)
 
 /* Audio */
 OPT(audio_enabled, bool, true, Audio, Enabled)
